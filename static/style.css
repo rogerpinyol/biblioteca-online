@@ -1,0 +1,87 @@
+/* Estils generals */
+body {
+    font-family: Arial, sans-serif;
+    margin: 0;
+    padding: 0;
+}
+
+/* Header */
+.header-container {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    background-color: #f8f8f8;
+    padding: 10px 20px;
+}
+
+/* Logo */
+.logo img {
+    height: 15vh
+}
+
+/* Barra de cerca */
+.search-bar {
+    display: flex;
+    align-items: center;
+    gap: 1px;;
+}
+
+.search-bar input {
+    padding: 15px;
+    border: 1.5px solid #ccc;
+    border-radius: 10px;
+    width: 50vw;
+}
+
+.search-bar button {
+    background: none;
+    border: none;
+    cursor: pointer;
+}
+
+.search-bar button img {
+    height: 30px;
+}
+
+/* Login */
+.login {
+    text-align: center;
+}
+
+.login a {
+    display: block;
+    font-weight: bold;
+    text-decoration: none;
+    color: black;
+}
+
+.login p {
+    margin: 0;
+    font-size: 0.9em;
+    color: #666;
+}
+
+/* Navegació */
+nav ul {
+    list-style: none;
+    display: flex;
+    justify-content: center;
+    padding: 0;
+    background-color: #333;
+    margin: 0;
+}
+
+nav ul li {
+    margin: 0;
+}
+
+nav ul li a {
+    display: block;
+    padding: 10px 15px;
+    text-decoration: none;
+    color: white;
+}
+
+nav ul li a:hover {
+    background-color: #757474;
+}

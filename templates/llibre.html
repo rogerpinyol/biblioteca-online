@@ -1,0 +1,81 @@
+<!DOCTYPE html>
+<html lang="ca">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Llibre - Plantilla</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f0f0f0;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            margin: 0;
+        }
+
+        .llibre-container {
+            background-color: #fff;
+            border: 2px solid #000;
+            padding: 20px;
+            width: 300px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+        }
+
+        .llibre-container h1 {
+            font-size: 1.2em;
+            margin: 0 0 10px 0;
+            border-bottom: 1px solid #000;
+            padding-bottom: 5px;
+        }
+
+        .llibre-info p {
+            margin: 5px 0;
+            font-size: 1em;
+        }
+
+        .llibre-info strong {
+            display: inline-block;
+            width: 100px;
+        }
+
+        .tags {
+            margin-top: 10px;
+            display: flex;
+            gap: 10px;
+        }
+
+        .tag {
+            padding: 5px 10px;
+            border: 1px solid #000;
+            border-radius: 5px;
+            font-size: 0.9em;
+        }
+
+        .tag.pendent { background-color: #ffeb3b; }
+        .tag.completat { background-color: #4caf50; }
+        .tag.llegint { background-color: #2196f3; }
+        .tag.recomanacio { background-color: #f44336; }
+    </style>
+</head>
+<body>
+    <div class="llibre-container">
+        <h1>Llibre</h1>
+        <div class="llibre-info">
+            <p><strong>Títol:</strong> <span id="titol">Títol del llibre</span></p>
+            <p><strong>Autor:</strong> <span id="autor">Autor del llibre</span></p>
+            <p><strong>Editorial:</strong> <span id="editorial">Editorial del llibre</span></p>
+            <p><strong>ISBN:</strong> <span id="isbn">ISBN del llibre</span></p>
+            <p><strong>Any Publicació:</strong> <span id="any">Any de publicació</span></p>
+        </div>
+        <div class="tags">
+            <!-- Aquestes etiquetes es poden mostrar o amagar segons el llibre -->
+            <span class="tag pendent">Pendent</span>
+            <span class="tag completat">Completat</span>
+            <span class="tag llegint">Llegint</span>
+            <span class="tag recomanacio">Recomanació</span>
+        </div>
+    </div>
+</body>
+</html>
