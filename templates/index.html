@@ -2,6 +2,7 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
+<<<<<<< HEAD
     <title>Digital Library</title>
     <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
 </head>
@@ -11,3 +12,57 @@
     <!-- Add book list and categories sidebar later -->
 </body>
 </html>
+=======
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Digital Library</title>
+    <link rel="stylesheet" href="../static/style.css">
+</head>
+<body>
+    <header>
+        <div class="header-container">
+            <div class="logo">
+                <img src="../images/Libritxt.png" alt="Logo Biblioteca Digital">
+            </div>
+            <div class="search-bar">
+                <input type="text" id="search" placeholder="Introdueix el títol o autor">
+                <button onclick="buscarLlibre()">
+                    <img src="../images/lupa.png" alt="Cercar">
+                </button>
+            </div>
+            <div class="login">
+                <a href="#login">User/Admin</a>
+                <p>Login</p>
+            </div>
+        </div>
+        <nav>
+            <ul>
+                <li><a href="#">Inici</a></li>
+                <li><a href="#cataleg">Catàleg</a></li>
+                <li><a href="#novetats">Novetats</a></li>
+                <li><a href="#contacte">Contacte</a></li>
+            </ul>
+        </nav>
+    </header>
+    
+    <main>
+        <section id="cataleg">
+            <h2>Catàleg de Llibres</h2>
+            <div id="llistat-llibres">
+                <!-- Llibres es carregaran aquí -->
+            </div>
+        </section>
+        
+        <section id="novetats">
+            <h2>Novetats</h2>
+            <p>Descobreix les últimes incorporacions a la nostra biblioteca.</p>
+        </section>
+    </main>
+    
+    <footer>
+        <p>&copy; 2025 Biblioteca Digital</p>
+    </footer>
+    
+    <script src="script.js"></script>
+</body>
+</html>
+>>>>>>> refs/remotes/origin/main
