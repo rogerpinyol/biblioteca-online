@@ -2,11 +2,14 @@ from werkzeug.security import check_password_hash
 
 # Classe per als llibres
 class Book:
-    def __init__(self, title, author, category, isbn):
+    def __init__(self, title, author, categories, isbn, language, release_year, cover):
         self._title = title
         self._author = author
-        self._category = category
+        self._categories = categories
         self._isbn = isbn
+        self._language = language
+        self._release_year = release_year
+        self._cover = cover
 
     # Getters
     @property
@@ -24,6 +27,18 @@ class Book:
     @property
     def isbn(self):
         return self._isbn
+    
+    @property
+    def language(self):
+        return self._language
+
+    @property
+    def release_year(self):
+        return self._release_year
+
+    @property
+    def cover(self):
+        return self._cover
 
 # Classe pare dels usuaris    
 class User:

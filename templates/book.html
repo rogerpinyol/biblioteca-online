@@ -1,0 +1,23 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>{{ book.name }}</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+</head>
+<body>
+    <h1>{{ book.name }}</h1>
+    <p><strong>Author:</strong> {{ book.author }}</p>
+    <p><strong>Categories:</strong> 
+        {% if book.categories %}
+            {{ ', '.join(book.categories) }}
+        {% else %}
+            No categories
+        {% endif %}
+    </p>
+    <p><strong>Language:</strong> {{ book.language }}</p>
+    <p><strong>Release Year:</strong> {{ book.release_year }}</p>
+    <img src="{{ url_for('serve_cover', filename=book.cover) }}" alt="Cover of {{ book.name }}">
+    <a href="{{ url_for('index') }}">Back to Home</a>
+</body>
+</html>
