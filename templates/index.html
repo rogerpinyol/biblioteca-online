@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="ca">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -13,7 +13,7 @@
                 <img src="{{ url_for('static', filename='images/Libritxt.png') }}" alt="Logo Biblioteca Digital">
             </div>
             <div class="search-bar">
-                <input type="text" id="search" placeholder="Introdueix el títol o autor">
+                <input type="text" id="search" placeholder="Introdueix el títol o autor" onkeypress="buscarLlibre()">
                 <button onclick="buscarLlibre()">
                     <img src="{{ url_for('static', filename='images/lupa.png') }}" alt="Cercar">
                 </button>
@@ -41,8 +41,20 @@
     <main>
         <section id="cataleg">
             <h2>Catàleg de Llibres</h2>
-            <div id="llistat-llibres">
-                <!-- Llibres es carregaran aquí -->
+            <div id="llistat-llibres" class="book-grid">
+                {% if books %}
+                    {% for book in books %}
+                        <div class="book-item">
+                            <a href="{{ url_for('book_details', isbn=book.isbn) }}">
+                                <img src="{{ url_for('serve_cover', filename=book.cover) }}" alt="{{ book.name }}" class="book-cover">
+                                <h3>{{ book.name }}</h3>
+                                <p class="author">{{ book.author }}</p>
+                            </a>
+                        </div>
+                    {% endfor %}
+                {% else %}
+                    <p>No hi ha llibres disponibles al catàleg.</p>
+                {% endif %}
             </div>
         </section>
         

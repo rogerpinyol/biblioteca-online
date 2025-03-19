@@ -1,24 +1,60 @@
 from flask import Flask, render_template, request, redirect, url_for, session, flash, send_from_directory
+from werkzeug.security import generate_password_hash, check_password_hash
+from models import User, Admin, Reader
 
 app = Flask(__name__)
 app.secret_key = 'your_secret_key_here' 
 
-# Usuaris predefinits
-usuaris = {
-    'client': 'client',
-    'admin': 'admin'
-}
+def load_users():
+    users = {}
+    try:
+        with open('data/users.txt', 'r', encoding='utf-8') as f:
+            for line in f:
+                fields = line.strip().split(',')
+                if len(fields) == 3:
+                    username, password, role = fields
+                    # Generate a simple ID (e.g., username-based for uniqueness)
+                    user_id = username  # Could use a counter or UUID in a real app
+                    password_hash = generate_password_hash(password)  # Hash the password
+                    if role == 'admin':
+                        user = Admin(user_id, username, password_hash)
+                    else:  # Si no es admin, es un lector
+                        user = Reader(user_id, username, password_hash)
+                    users[username] = user
+    except FileNotFoundError:
+        print("users.txt not found; no users loaded.")
+    return users
+
+# Load users at startup
+users = load_users()
+
+def get_all_books():
+    books = []
+    try:
+        with open('data/books.txt', 'r', encoding='utf-8') as f:
+            for line in f:
+                fields = line.strip().split('|')
+                if len(fields) == 8:  # Ensure the line has all expected fields
+                    categories = fields[3].split(',') if fields[3] else []
+                    books.append({
+                        'isbn': fields[0],
+                        'name': fields[1],
+                        'author': fields[2],
+                        'categories': categories,
+                        'editorial': fields[4],
+                        'release_year': fields[5],
+                        'cover': fields[6],
+                        'description': fields[7]
+                    })
+    except FileNotFoundError:
+        pass
+    return books
 
 @app.route('/')
 def index():
     if 'usuari' in session:
-        return render_template('index.html', usuari=session['usuari'])
-    return redirect(url_for('login'))
-
-@app.route('/llibre')
-def llibre():
-    if 'usuari' in session:
-        return render_template('llibre.html', usuari=session['usuari'])
+        books = get_all_books()
+        return render_template('index.html', usuari=session['usuari'], books=books)
     return redirect(url_for('login'))
 
 @app.route('/login', methods=['GET', 'POST'])
@@ -27,8 +63,9 @@ def login():
         usuari = request.form['usuari']
         contrasenya = request.form['contrasenya']
         
-        if usuari in usuaris and usuaris[usuari] == contrasenya:
+        if usuari in users and users[usuari].check_password(contrasenya):
             session['usuari'] = usuari
+            session['role'] = users[usuari].role  # Store role for later use
             flash('Login correcte!', 'success')
             return redirect(url_for('index'))
         else:
@@ -39,8 +76,9 @@ def login():
 @app.route('/logout')
 def logout():
     session.pop('usuari', None)
-    flash('Has sortit de la sessió', 'success')
-    return redirect(url_for('login'))
+    session.pop('role', None)
+    flash('Has tancat sessió correctament.', 'success')
+    return redirect(url_for('index'))
 
 def get_book_by_isbn(isbn):
     with open('data/books.txt', 'r', encoding='utf-8') as f:

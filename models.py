@@ -42,10 +42,9 @@ class Book:
 
 # Classe pare dels usuaris    
 class User:
-    def __init__(self, id, name, email, password_hash, role):
+    def __init__(self, id, name, password_hash, role):
         self._id = id
         self._name = name
-        self._email = email
         self._password_hash = password_hash
         self._role = role
 
@@ -56,10 +55,6 @@ class User:
     @property
     def name(self):
         return self._name
-
-    @property
-    def email(self):
-        return self._email
 
     @property
     def password_hash(self):
@@ -73,12 +68,12 @@ class User:
         return check_password_hash(self._password_hash, password)
 
 class Admin(User):
-    def __init__(self, id, name, email, password_hash):
-        super().__init__(id, name, email, password_hash, "admin")
+    def __init__(self, id, name, password_hash):
+        super().__init__(id, name, password_hash, "admin")
 
 class Reader(User):
-    def __init__(self, id, name, email, password_hash):
-        super().__init__(id, name, email, password_hash, "reader")
+    def __init__(self, id, name, password_hash):
+        super().__init__(id, name, password_hash, "reader")
 
 ######################
 # START REVIEW CLASSES

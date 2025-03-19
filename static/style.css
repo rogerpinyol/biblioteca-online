@@ -179,7 +179,7 @@ body {
 
 .book-cover {
     width: 100%;
-    height: 100%;
+    height: auto;
     margin-bottom: 15px;
     border: 1px solid #ddd;
 }
@@ -323,4 +323,49 @@ h1 {
     height: 100%;
     background-color: #4caf50;
     border-radius: 5px;
+}
+
+/* Catalog Grid */
+.book-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+    gap: 20px;
+    padding: 20px;
+}
+
+.book-item {
+    text-align: center;
+    background-color: #f8f9fa;
+    border: 1px solid #ddd;
+    border-radius: 5px;
+    padding: 10px;
+    transition: transform 0.2s;
+}
+
+.book-item:hover {
+    transform: scale(1.05);
+}
+
+.book-item a {
+    text-decoration: none;
+    color: inherit;
+}
+
+.book-item .book-cover {
+    width: 100%;
+    height: 250px;
+    object-fit: cover; /* Ensures covers fit nicely */
+    border: 1px solid #ddd;
+    border-radius: 5px;
+}
+
+.book-item h3 {
+    font-size: 16px;
+    margin: 10px 0 5px;
+    color: #333;
+}
+
+.book-item .author {
+    font-size: 14px;
+    color: #555;
 }
