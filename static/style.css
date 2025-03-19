@@ -16,14 +16,14 @@ body {
 
 /* Logo */
 .logo img {
-    height: 15vh
+    height: 15vh;
 }
 
 /* Barra de cerca */
 .search-bar {
     display: flex;
     align-items: center;
-    gap: 1px;;
+    gap: 1px;
 }
 
 .search-bar input {
@@ -43,7 +43,7 @@ body {
     height: 30px;
 }
 
-/* Login */
+/* Login (header) */
 .login {
     text-align: center;
 }
@@ -84,4 +84,74 @@ nav ul li a {
 
 nav ul li a:hover {
     background-color: #757474;
+}
+
+/* LOGIN */
+.login-page {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    min-height: 100vh;
+}
+
+.login-container {
+    background-color: white;
+    padding: 20px;
+    border-radius: 10px;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+    width: 350px;
+    text-align: center;
+}
+
+.login-container h2 {
+    color: #333;
+    margin-bottom: 20px;
+}
+
+.login-container label {
+    display: block;
+    text-align: left;
+    color: #333;
+    margin-bottom: 5px;
+    font-weight: bold;
+}
+
+.login-container input {
+    width: 100%;
+    padding: 10px;
+    margin-bottom: 15px;
+    border: 1.5px solid #ccc;
+    border-radius: 5px;
+    box-sizing: border-box;
+}
+
+.login-container input[type="submit"] {
+    background-color: #333;
+    color: white;
+    border: none;
+    padding: 10px;
+    border-radius: 5px;
+    cursor: pointer;
+}
+
+.login-container input[type="submit"]:hover {
+    background-color: #757474;
+}
+
+.login-container p.error {
+    color: red;
+    margin: 10px 0;
+}
+
+.login-container p.success {
+    color: green;
+    margin: 10px 0;
+}
+
+/* Estils per al logotip al login */
+.login-logo {
+    display: block;
+    margin: 0 auto 10px auto; /* Centra el logotip i afegeix espai inferior */
+    max-width: 100%; /* Asegura que no superi el contenidor */
+    height: auto; /* Mantenir proporció */
 }
