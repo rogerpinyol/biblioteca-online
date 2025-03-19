@@ -369,3 +369,24 @@ h1 {
     font-size: 14px;
     color: #555;
 }
+
+.borrow-btn:disabled {
+    background-color: #ccc;
+    cursor: not-allowed;
+}
+
+.flash-success {
+    color: #4caf50; /* Green for success */
+    background-color: #e8f5e9;
+    padding: 10px;
+    margin: 10px 0;
+    border-radius: 5px;
+}
+
+.flash-error {
+    color: #f44336; /* Red for error */
+    background-color: #ffebee;
+    padding: 10px;
+    margin: 10px 0;
+    border-radius: 5px;
+}

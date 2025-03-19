@@ -50,6 +50,35 @@ def get_all_books():
         pass
     return books
 
+# Check lending status and get borrower
+def get_lending_status(isbn):
+    try:
+        with open('data/lendings.txt', 'r', encoding='utf-8') as f:
+            for line in f:
+                fields = line.strip().split(',')
+                if fields[0] == isbn:
+                    return fields[1]  # Return the user who has the book
+    except FileNotFoundError:
+        pass
+    return None  # Book is not lent
+
+# Lend a book to a user
+def lend_book(isbn, user):
+    with open('data/lendings.txt', 'a', encoding='utf-8') as f:
+        f.write(f"{isbn},{user}\n")
+
+# Return a book (remove from lendings.txt)
+def return_book(isbn):
+    try:
+        with open('data/lendings.txt', 'r', encoding='utf-8') as f:
+            lines = f.readlines()
+        with open('data/lendings.txt', 'w', encoding='utf-8') as f:
+            for line in lines:
+                if not line.strip().startswith(isbn):
+                    f.write(line)
+    except FileNotFoundError:
+        pass
+
 @app.route('/')
 def index():
     if 'usuari' in session:
@@ -142,7 +171,38 @@ def book_details(isbn):
     average_rating = sum(numeric_reviews) / len(numeric_reviews) if numeric_reviews else 0
     recommendation_reviews = [review['recommendation'] for review in reviews if review['type'] == 'recommendation']
     recommendation_percentage = (sum(recommendation_reviews) / len(recommendation_reviews) * 100) if recommendation_reviews else 0
-    return render_template('book.html', book=book, reviews=reviews, average_rating=average_rating, recommendation_percentage=recommendation_percentage)
+    borrower = get_lending_status(isbn)  # Check if book is lent
+    return render_template('book.html', book=book, reviews=reviews, average_rating=average_rating, recommendation_percentage=recommendation_percentage, borrower=borrower, usuari=session.get('usuari'))
+
+@app.route('/lend/<isbn>', methods=['POST'])
+def lend(isbn):
+    if 'usuari' not in session:
+        flash('Cal iniciar sessió per prestar un llibre.', 'error')
+        return redirect(url_for('login'))
+    user = session['usuari']
+    borrower = get_lending_status(isbn)
+    if borrower:
+        flash('Aquest llibre ja està prestat.', 'error')
+    else:
+        lend_book(isbn, user)
+        flash('Llibre prestat amb èxit!', 'success')
+    return redirect(url_for('book_details', isbn=isbn))
+
+@app.route('/return/<isbn>', methods=['POST'])
+def return_book_route(isbn):
+    if 'usuari' not in session:
+        flash('Cal iniciar sessió per tornar un llibre.', 'error')
+        return redirect(url_for('login'))
+    user = session['usuari']
+    borrower = get_lending_status(isbn)
+    if borrower == user:
+        return_book(isbn)
+        flash('Llibre tornat amb èxit!', 'success')
+    elif borrower:
+        flash('No pots tornar aquest llibre perquè no el tens prestat.', 'error')
+    else:
+        flash('Aquest llibre no està prestat.', 'error')
+    return redirect(url_for('book_details', isbn=isbn))
 
 @app.route('/covers/<filename>')
 def serve_cover(filename):
