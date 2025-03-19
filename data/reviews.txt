@@ -1,0 +1,5 @@
+00001|numeric|user1|2023-10-15 10:00|4
+00001|comment|user2|2023-10-15 12:00|Great book!
+00001|recommendation|user3|2023-10-15 14:00|Yes
+00001|recommendation|user4|2023-10-15 14:00|No
+00001|recommendation|user4|2023-10-15 14:00|Yes
