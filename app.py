@@ -21,7 +21,7 @@ def llibre():
         return render_template('llibre.html', usuari=session['usuari'])
     return redirect(url_for('login'))
 
-@app.route('/template/login', methods=['GET', 'POST'])
+@app.route('/login', methods=['GET', 'POST'])
 def login():
     if request.method == 'POST':
         usuari = request.form['usuari']
@@ -70,10 +70,6 @@ def book_details(isbn):
 @app.route('/covers/<filename>')
 def serve_cover(filename):
     return send_from_directory('data/covers', filename)
-
-@app.route('/')
-def index():
-    return render_template('index.html')
 
 if __name__ == '__main__':
     app.run(debug=True, port=5500)
