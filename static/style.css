@@ -1,157 +1,175 @@
-/* Estils generals */
-body {
-    font-family: Arial, sans-serif;
+* {
     margin: 0;
     padding: 0;
-}
-
-/* Header */
-.header-container {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    background-color: #f8f8f8;
-    padding: 10px 20px;
-}
-
-/* Logo */
-.logo img {
-    height: 15vh;
-}
-
-/* Barra de cerca */
-.search-bar {
-    display: flex;
-    align-items: center;
-    gap: 1px;
-}
-
-.search-bar input {
-    padding: 15px;
-    border: 1.5px solid #ccc;
-    border-radius: 10px;
-    width: 50vw;
-}
-
-.search-bar button {
-    background: none;
-    border: none;
-    cursor: pointer;
-}
-
-.search-bar button img {
-    height: 30px;
-}
-
-/* Login (header) */
-.login {
-    text-align: center;
-}
-
-.login a {
-    display: block;
-    font-weight: bold;
-    text-decoration: none;
-    color: black;
-}
-
-.login p {
-    margin: 0;
-    font-size: 0.9em;
-    color: #666;
-}
-
-/* Navegació */
-nav ul {
-    list-style: none;
-    display: flex;
-    justify-content: center;
-    padding: 0;
-    background-color: #333;
-    margin: 0;
-}
-
-nav ul li {
-    margin: 0;
-}
-
-nav ul li a {
-    display: block;
-    padding: 10px 15px;
-    text-decoration: none;
-    color: white;
-}
-
-nav ul li a:hover {
-    background-color: #757474;
-}
-
-/* LOGIN */
-.login-page {
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    min-height: 100vh;
-}
-
-.login-container {
-    background-color: white;
-    padding: 20px;
-    border-radius: 10px;
-    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
-    width: 350px;
-    text-align: center;
-}
-
-.login-container h2 {
-    color: #333;
-    margin-bottom: 20px;
-}
-
-.login-container label {
-    display: block;
-    text-align: left;
-    color: #333;
-    margin-bottom: 5px;
-    font-weight: bold;
-}
-
-.login-container input {
-    width: 100%;
-    padding: 10px;
-    margin-bottom: 15px;
-    border: 1.5px solid #ccc;
-    border-radius: 5px;
     box-sizing: border-box;
 }
 
-.login-container input[type="submit"] {
-    background-color: #333;
-    color: white;
-    border: none;
+body {
+    font-family: Arial, sans-serif;
+    background-color: #ffffff;
+    padding: 20px;
+    line-height: 1.6;
+}
+/* Contenidor principal amb dues columnes */
+.container {
+    display: flex;
+    max-width: 1200px;
+    margin: 0 auto;
+    gap: 20px;
+}
+
+/* Columna Esquerra */
+.left-column {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+.book-cover {
+    width: 100%;
+    height: 100%;
+    margin-bottom: 15px;
+    border: 1px solid #ddd;
+}
+
+.stats {
+    display: flex;
+    gap: 10px;
+}
+
+.stat-box {
+    background-color: #f8f9fa;
+    border: 1px solid #ddd;
     padding: 10px;
-    border-radius: 5px;
+    text-align: center;
+    font-size: 14px;
+    color: #333;
+    width: 120px;
+}
+
+/* Columna Dreta */
+.right-column {
+    flex: 2;
+    padding: 20px;
+}
+
+h1 {
+    font-size: 24px;
+    font-weight: bold;
+    text-transform: uppercase;
+    color: #000;
+    margin-bottom: 10px;
+}
+
+.author {
+    font-size: 16px;
+    color: #555;
+    margin-bottom: 10px;
+}
+
+.rating {
+    display: flex;
+    align-items: center;
+    margin-bottom: 15px;
+}
+
+.star {
+    color: #ffc107;
+    font-size: 20px;
+    margin-right: 5px;
+}
+
+.heart, .share {
+    margin-left: 10px;
     cursor: pointer;
 }
 
-.login-container input[type="submit"]:hover {
-    background-color: #757474;
+.buttons {
+    display: flex;
+    gap: 10px;
+    margin-bottom: 15px;
 }
 
-.login-container p.error {
-    color: red;
-    margin: 10px 0;
+.borrow-btn, .preview-btn {
+    padding: 10px 20px;
+    border-radius: 5px;
+    font-size: 14px;
+    cursor: pointer;
+    width: 120px;
+    text-align: center;
 }
 
-.login-container p.success {
-    color: green;
-    margin: 10px 0;
+.borrow-btn {
+    background-color: #007bff;
+    color: #fff;
+    border: none;
 }
 
-/* Estils per al logotip al login */
-.login-logo {
+.preview-btn {
+    background-color: #fff;
+    color: #007bff;
+    border: 1px solid #007bff;
+}
+
+.description {
+    font-size: 14px;
+    color: #555;
+    margin-bottom: 15px;
+    text-align: justify;
+}
+
+.category-link {
+    font-size: 14px;
+    color: #007bff;
+    text-decoration: underline;
+    margin-bottom: 15px;
     display: block;
-    margin: 0 auto 10px auto; /* Centra el logotip i afegeix espai inferior */
-    max-width: 100%; /* Asegura que no superi el contenidor */
-    height: auto; /* Mantenir proporció */
+}
+
+.metadata {
+    width: 100%;
+    border-collapse: collapse;
+    font-size: 14px;
+    color: #333;
+}
+
+.metadata td {
+    padding: 5px;
+    border: 1px solid #ddd;
+}
+
+.metadata tr.alt-row {
+    background-color: #f8f9fa;
+}
+
+.metadata strong {
+    color: #000;
+}
+
+.categories .category-link {
+    margin-right: 10px;
+    display: inline-block;
+}
+
+.recommendation-bar {
+    margin-top: 10px;
+}
+
+.recommendation-bar h3 {
+    font-size: 18px;
+    margin-bottom: 5px;
+}
+
+.recommendation-bar .bar-container {
+    width: 100%;
+    background-color: #ddd;
+    height: 20px;
+    border-radius: 5px;
+}
+
+.recommendation-bar .bar-fill {
+    height: 100%;
+    background-color: #4caf50;
+    border-radius: 5px;
 }
