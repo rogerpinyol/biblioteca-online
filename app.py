@@ -3,7 +3,7 @@ from werkzeug.security import generate_password_hash, check_password_hash
 from models import User, Admin, Reader
 
 app = Flask(__name__)
-app.secret_key = 'your_secret_key_here' 
+app.secret_key = 'bomboclat' 
 
 def load_users():
     users = {}
