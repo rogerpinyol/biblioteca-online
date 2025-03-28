@@ -3,7 +3,7 @@ from werkzeug.security import generate_password_hash, check_password_hash
 from models import User, Admin, Reader
 
 app = Flask(__name__)
-app.secret_key = 'bomboclat' 
+app.secret_key = 'your_secret_key_here'
 
 def load_users():
     users = {}
@@ -13,12 +13,11 @@ def load_users():
                 fields = line.strip().split(',')
                 if len(fields) == 3:
                     username, password, role = fields
-                    # Generate a simple ID (e.g., username-based for uniqueness)
-                    user_id = username  # Could use a counter or UUID in a real app
-                    password_hash = generate_password_hash(password)  # Hash the password
+                    user_id = username
+                    password_hash = generate_password_hash(password)
                     if role == 'admin':
                         user = Admin(user_id, username, password_hash)
-                    else:  # Si no es admin, es un lector
+                    else:
                         user = Reader(user_id, username, password_hash)
                     users[username] = user
     except FileNotFoundError:
@@ -34,7 +33,7 @@ def get_all_books():
         with open('data/books.txt', 'r', encoding='utf-8') as f:
             for line in f:
                 fields = line.strip().split('|')
-                if len(fields) == 8:  # Ensure the line has all expected fields
+                if len(fields) == 8:
                     categories = fields[3].split(',') if fields[3] else []
                     books.append({
                         'isbn': fields[0],
@@ -50,17 +49,25 @@ def get_all_books():
         pass
     return books
 
-# Check lending status and get borrower
+# Get Categories
+def get_all_categories(books):
+    categories = set()
+    for book in books:
+        for category in book['categories']:
+            categories.add(category.strip())
+    return sorted(categories)
+
+# Check lending status of a book
 def get_lending_status(isbn):
     try:
         with open('data/lendings.txt', 'r', encoding='utf-8') as f:
             for line in f:
                 fields = line.strip().split(',')
                 if fields[0] == isbn:
-                    return fields[1]  # Return the user who has the book
+                    return fields[1]
     except FileNotFoundError:
         pass
-    return None  # Book is not lent
+    return None
 
 # Lend a book to a user
 def lend_book(isbn, user):
@@ -81,10 +88,35 @@ def return_book(isbn):
 
 @app.route('/')
 def index():
-    if 'usuari' in session:
-        books = get_all_books()
-        return render_template('index.html', usuari=session['usuari'], books=books)
-    return redirect(url_for('login'))
+    if 'usuari' not in session:
+        return redirect(url_for('login'))
+
+    sort = request.args.get('sort', 'default')
+
+    selected_category = request.args.get('category', None)
+
+    books = get_all_books()
+
+    filtered_books = books.copy()
+    if selected_category:
+        filtered_books = [book for book in filtered_books if selected_category in book['categories']]
+
+    # Order
+    if sort == 'name_asc':
+        filtered_books.sort(key=lambda x: x['name'].lower())
+    elif sort == 'name_desc':
+        filtered_books.sort(key=lambda x: x['name'].lower(), reverse=True)
+
+    all_categories = get_all_categories(books)
+
+    return render_template(
+        'index.html',
+        usuari=session['usuari'],
+        books=filtered_books,
+        sort=sort,
+        all_categories=all_categories,
+        selected_category=selected_category
+    )
 
 @app.route('/login', methods=['GET', 'POST'])
 def login():
@@ -94,7 +126,7 @@ def login():
         
         if usuari in users and users[usuari].check_password(contrasenya):
             session['usuari'] = usuari
-            session['role'] = users[usuari].role  # Store role for later use
+            session['role'] = users[usuari].role
             flash('Login correcte!', 'success')
             return redirect(url_for('index'))
         else:
@@ -150,7 +182,7 @@ def get_reviews_by_isbn(isbn):
                             'comment': fields[4]
                         })
                     elif review_type == 'recommendation':
-                        recommendation = fields[4].lower() == 'yes'  # Convert to boolean
+                        recommendation = fields[4].lower() == 'yes'
                         reviews.append({
                             'type': 'recommendation',
                             'user': fields[2],
@@ -171,8 +203,16 @@ def book_details(isbn):
     average_rating = sum(numeric_reviews) / len(numeric_reviews) if numeric_reviews else 0
     recommendation_reviews = [review['recommendation'] for review in reviews if review['type'] == 'recommendation']
     recommendation_percentage = (sum(recommendation_reviews) / len(recommendation_reviews) * 100) if recommendation_reviews else 0
-    borrower = get_lending_status(isbn)  # Check if book is lent
-    return render_template('book.html', book=book, reviews=reviews, average_rating=average_rating, recommendation_percentage=recommendation_percentage, borrower=borrower, usuari=session.get('usuari'))
+    borrower = get_lending_status(isbn)
+    return render_template(
+        'book.html',
+        book=book,
+        reviews=reviews,
+        average_rating=average_rating,
+        recommendation_percentage=recommendation_percentage,
+        borrower=borrower,
+        usuari=session.get('usuari')
+    )
 
 @app.route('/lend/<isbn>', methods=['POST'])
 def lend(isbn):
@@ -207,6 +247,18 @@ def return_book_route(isbn):
 @app.route('/covers/<filename>')
 def serve_cover(filename):
     return send_from_directory('data/covers', filename)
+
+@app.route('/politica-privacitat')
+def politica_privacitat():
+    if 'usuari' in session:
+        return render_template('politica-privacitat.html', usuari=session['usuari'])
+    return render_template('politica-privacitat.html')
+
+@app.route('/contacte')
+def contacte():
+    if 'usuari' in session:
+        return render_template('contacte.html', usuari=session['usuari'])
+    return render_template('contacte.html')
 
 if __name__ == '__main__':
     app.run(debug=True, port=5500)

@@ -1,22 +1,11 @@
-<!DOCTYPE html>
-<html lang="ca">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>{{ book.name }}</title>
-    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
-</head>
-<body>
+{% extends "base.html" %}
+
+{% block title %}{{ book.name }}{% endblock %}
+
+{% block content %}
     <div class="container">
         <div class="left-column">
             <img src="{{ url_for('serve_cover', filename=book.cover) }}" alt="Portada de {{ book.name }}" class="book-cover">
-            {% with messages = get_flashed_messages(with_categories=true) %}
-            {% if messages %}
-                {% for category, message in messages %}
-                    <p class="flash-{{ category }}">{{ message }}</p>
-                {% endfor %}
-            {% endif %}
-        {% endwith %}
         </div>
         <div class="right-column">
             <h1>{{ book.name }}</h1>
@@ -99,5 +88,4 @@
             </div>
         </div>
     </div>
-</body>
-</html>
+{% endblock %}
